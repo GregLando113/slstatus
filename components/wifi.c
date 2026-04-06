@@ -326,7 +326,7 @@
 					if (p)
 						p = findattr(NL80211_STA_INFO_SIGNAL_AVG, p, e, &len);
 					if (p && len == 1)
-						snprintf(strength, sizeof(strength), "%d", *p);
+						snprintf(strength, sizeof(strength), "%hhd", *p);
 				}
 				if (hdr.nlmsg_type == NLMSG_DONE)
 					return *strength ? strength : NULL;
