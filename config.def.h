@@ -67,6 +67,9 @@ static const char unknown_str[] = "n/a";
  *
  */
 
+
+
+
 static const struct arg args[] = {
     /* function         format              argument */
     //{ mpd,          "%s",           NULL },
@@ -75,10 +78,10 @@ static const struct arg args[] = {
     { battery_perc,     "^fg(d366c4)[🔋 %2s%% | ",            "BAT0" },
     { battery_remaining,    "%s]^fg()",       "BAT0" },
     { cpu_perc,       "^fg(d28266)[𒁈   %s%%]^fg()",  NULL },
-    { wifi_essid,       "^fg(d2d266)[  %s",           "wlp3s0" },
-    { wifi_rssi,       " (%3s)]]^fg()",           "wlp3s0" },
-    { netspeed_rx,      "^fg(66d2d2)[⬇%7s",             "wlp3s0" },
-    { netspeed_tx,      " ⬆%7s]^fg()",            "wlp3s0" },
+    { wifi_essid,       "^fg(d2d266)[  %s",           NULL },
+    { wifi_rssi,       " (%3s)]]^fg()",           NULL },
+    { netspeed_rx,      "^fg(66d2d2)[⬇%7s",            NULL },
+    { netspeed_tx,      " ⬆%7s]^fg()",            NULL },
     { datetime,         "^fg(ffffff)[📆 %s]^fg()",        "%a %d/%m/%y %H:%M" },
 };
 

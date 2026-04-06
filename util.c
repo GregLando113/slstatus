@@ -156,3 +156,30 @@ lscanf(FILE *fp, const char *key, const char *fmt, void *res)
 		rewind(fp);
 		return (n == 1) ? 1 : -1;
 }
+
+
+char* 
+active_network_interface(char* buffer, int buffer_sz)
+{
+	if(buffer_sz < 16) return NULL;
+	
+	FILE* f = fopen("/proc/net/route", "r");
+	if (!f) return NULL;
+
+	char line[256];
+	unsigned long dest, gw;
+
+	fgets(line, sizeof(line), f);
+	while (fscanf(f, "%15s %lx %lx %*s\n", buffer, &dest, &gw) == 3) {
+		if (dest == 0) { // top if
+			fclose(f);
+			return buffer;
+		}
+		// read rest of line
+		fgets(line, sizeof(line), f);
+	}
+	fclose(f);
+	return NULL;
+}
+
+

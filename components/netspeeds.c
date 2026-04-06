@@ -14,6 +14,10 @@
 	const char *
 	netspeed_rx(const char *interface)
 	{
+		char if_buffer[16];
+		if (interface == NULL) {
+			interface = active_network_interface(if_buffer,sizeof(if_buffer));
+		}
 		uintmax_t oldrxbytes;
 		static uintmax_t rxbytes;
 		extern const unsigned int interval;
@@ -35,6 +39,11 @@
 	const char *
 	netspeed_tx(const char *interface)
 	{
+		char if_buffer[16];
+		if (interface == NULL) {
+			interface = active_network_interface(if_buffer,sizeof(if_buffer));
+		}
+
 		uintmax_t oldtxbytes;
 		static uintmax_t txbytes;
 		extern const unsigned int interval;
@@ -62,6 +71,8 @@
 	const char *
 	netspeed_rx(const char *interface)
 	{
+
+
 		struct ifaddrs *ifal, *ifa;
 		struct if_data *ifd;
 		uintmax_t oldrxbytes;
@@ -96,6 +107,8 @@
 	const char *
 	netspeed_tx(const char *interface)
 	{
+
+
 		struct ifaddrs *ifal, *ifa;
 		struct if_data *ifd;
 		uintmax_t oldtxbytes;

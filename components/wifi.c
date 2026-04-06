@@ -99,6 +99,12 @@
 	static int
 	ifindex(const char *interface)
 	{
+		char if_buffer[16];
+		if (interface == NULL) {
+			interface = active_network_interface(if_buffer,sizeof(if_buffer));
+		}
+
+
 		static struct ifreq ifr;
 		static int ifsock = -1;
 
@@ -121,6 +127,11 @@
 	const char *
 	wifi_essid(const char *interface)
 	{
+		char if_buffer[16];
+		if (interface == NULL) {
+			interface = active_network_interface(if_buffer,sizeof(if_buffer));
+		}
+
 		uint16_t fam = nl80211fam();
 		ssize_t r;
 		size_t len;
@@ -177,6 +188,12 @@
 	const char *
 	wifi_perc(const char *interface)
 	{
+		char if_buffer[16];
+		if (interface == NULL) {
+			interface = active_network_interface(if_buffer,sizeof(if_buffer));
+		}
+
+
 		static char strength[4];
 		struct nlmsghdr hdr;
 		uint16_t fam = nl80211fam();
@@ -246,6 +263,11 @@
 	const char *
 	wifi_rssi(const char *interface)
 	{
+		char if_buffer[16];
+		if (interface == NULL) {
+			interface = active_network_interface(if_buffer,sizeof(if_buffer));
+		}
+
 		static char strength[4];
 		struct nlmsghdr hdr;
 		uint16_t fam = nl80211fam();
