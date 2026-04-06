@@ -62,9 +62,21 @@ static const char unknown_str[] = "n/a";
  * vol_perc            OSS/ALSA volume in percent      mixer file (/dev/mixer)
  *                                                     NULL on OpenBSD/FreeBSD
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
- * wifi_perc           WiFi signal in percent          interface name (wlan0)
+ * wifi_perc           WiFi signal in percent          interface name (wlan0
+ *
+ *
  */
+
 static const struct arg args[] = {
-	/* function format          argument */
-	{ datetime, "%s",           "%F %T" },
+    /* function         format              argument */
+    //{ mpd,          "%s",           NULL },
+    //{ vol_perc,         "[%s]",             NULL },
+    //{ battery_state,    "^fg(d366c4)[",    "BAT0" },
+    { battery_perc,     "^fg(d366c4)[%2s%% | ",            "BAT0" },
+    { battery_remaining,    "%s]^fg()",       "BAT0" },
+    { wifi_essid,       "^fg(d2d266)[ %s]^fg()",           "wlp0s20f3" },
+    { netspeed_rx,      "^fg(66d2d2)[⬇%7s",             "wlp0s20f3" },
+    { netspeed_tx,      " ⬆%7s]^fg()",            "wlp0s20f3" },
+    { datetime,         "^fg(ffffff)[📆 %s]^fg()",        "%a %d/%m/%y %H:%M" },
 };
+
