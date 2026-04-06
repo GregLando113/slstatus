@@ -70,11 +70,13 @@ static const char unknown_str[] = "n/a";
 static const struct arg args[] = {
     /* function         format              argument */
     //{ mpd,          "%s",           NULL },
-        { vol_perc,         "[🔊 %%%2s]",           "/dev/snd/by-path/pci-0000:04:00.6" },
+    //    { vol_perc,         "[🔊 %2s%%]",           "/dev/snd/by-path/pci-0000:04:00.6" },
     //{ battery_state,    "^fg(d366c4)[",    "BAT0" },
     { battery_perc,     "^fg(d366c4)[🔋 %2s%% | ",            "BAT0" },
     { battery_remaining,    "%s]^fg()",       "BAT0" },
-    { wifi_essid,       "^fg(d2d266)[  %s]^fg()",           "wlp3s0" },
+    { cpu_perc,       "^fg(d28266)[𒁈   %s%%]^fg()",  NULL },
+    { wifi_essid,       "^fg(d2d266)[  %s",           "wlp3s0" },
+    { wifi_rssi,       " (%3s)]]^fg()",           "wlp3s0" },
     { netspeed_rx,      "^fg(66d2d2)[⬇%7s",             "wlp3s0" },
     { netspeed_tx,      " ⬆%7s]^fg()",            "wlp3s0" },
     { datetime,         "^fg(ffffff)[📆 %s]^fg()",        "%a %d/%m/%y %H:%M" },

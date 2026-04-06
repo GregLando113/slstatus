@@ -242,6 +242,75 @@
 			}
 		}
 	}
+
+	const char *
+	wifi_rssi(const char *interface)
+	{
+		static char strength[4];
+		struct nlmsghdr hdr;
+		uint16_t fam = nl80211fam();
+		ssize_t r;
+		size_t len;
+		char req[NLMSG_HDRLEN + GENL_HDRLEN + NLA_HDRLEN + NLA_ALIGN(4)] = {0}, *p = req, *e;
+		int idx = ifindex(interface);
+
+		if (idx < 0) {
+			fprintf(stderr, "interface %s not found\n", interface);
+			return NULL;
+		}
+
+		memcpy(p, &(struct nlmsghdr){
+			.nlmsg_len = sizeof(req),
+			.nlmsg_type = fam,
+			.nlmsg_flags = NLM_F_REQUEST|NLM_F_DUMP,
+			.nlmsg_seq = seq++,
+			.nlmsg_pid = 0,
+		}, sizeof(struct nlmsghdr));
+		p += NLMSG_HDRLEN;
+		memcpy(p, &(struct genlmsghdr){
+			.cmd = NL80211_CMD_GET_STATION,
+			.version = 1,
+		}, sizeof(struct genlmsghdr));
+		p += GENL_HDRLEN;
+		memcpy(p, &(struct nlattr){
+			.nla_len = NLA_HDRLEN + 4,
+			.nla_type = NL80211_ATTR_IFINDEX,
+		}, sizeof(struct nlattr));
+		p += NLA_HDRLEN;
+		memcpy(p, &idx, 4);
+
+		if (send(nlsock, req, sizeof(req), 0) != sizeof(req)) {
+			warn("send 'AF_NETLINK':");
+			return NULL;
+		}
+
+		*strength = 0;
+		while (1) {
+			r = recv(nlsock, resp, sizeof(resp), 0);
+			if (r < 0) {
+				warn("recv 'AF_NETLINK':");
+				return NULL;
+			}
+			if ((size_t)r < sizeof(hdr))
+				return NULL;
+
+			for (p = resp; p != resp + r && (size_t)(resp + r-p) >= sizeof(hdr); p = e) {
+				memcpy(&hdr, p, sizeof(hdr));
+				e = resp + r - p < hdr.nlmsg_len ? resp + r : p + hdr.nlmsg_len;
+
+				if (!*strength && hdr.nlmsg_len > NLMSG_HDRLEN+GENL_HDRLEN) {
+					p += NLMSG_HDRLEN+GENL_HDRLEN;
+					p = findattr(NL80211_ATTR_STA_INFO, p, e, &len);
+					if (p)
+						p = findattr(NL80211_STA_INFO_SIGNAL_AVG, p, e, &len);
+					if (p && len == 1)
+						snprintf(strength, sizeof(strength), "%d", *p);
+				}
+				if (hdr.nlmsg_type == NLMSG_DONE)
+					return *strength ? strength : NULL;
+			}
+		}
+	}
 #elif defined(__OpenBSD__)
 	#include <net/if.h>
 	#include <net/if_media.h>
