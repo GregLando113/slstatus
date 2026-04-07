@@ -82,6 +82,6 @@ static const struct arg args[] = {
     { wifi_rssi,       " (%3s)]]^fg()",           NULL },
     { netspeed_rx,      "^fg(66d2d2)[⬇%7s",            NULL },
     { netspeed_tx,      " ⬆%7s]^fg()",            NULL },
-    { datetime,         "^fg(ffffff)[📆 %s]^fg()",        "%a %d/%m/%y %H:%M" },
+    { datetime,         "^fg(ffffff)[📆 %s]^fg()",        "%a %Y-%m-%d %H:%M" },
 };
 
