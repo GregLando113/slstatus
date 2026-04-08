@@ -78,6 +78,7 @@ static const struct arg args[] = {
     { battery_perc,     "^fg(d366c4)[🔋 %2s%% | ",            "BAT0" },
     { battery_remaining,    "%s]^fg()",       "BAT0" },
     { cpu_perc,       "^fg(d28266)[𒁈   %s%%]^fg()",  NULL },
+    { ram_perc,       "^fg(f28266)[🐏  %s%%]^fg()",  NULL },
     { wifi_essid,       "^fg(d2d266)[  %s",           NULL },
     { wifi_rssi,       " (%3s)]]^fg()",           NULL },
     { netspeed_rx,      "^fg(66d2d2)[⬇%7s",            NULL },
